@@ -15,30 +15,30 @@ class PSO():
         self.dim = dim  # 搜索维度
         self.max_iter = max_iter  # 迭代次数
         self.X = np.zeros((self.pN, self.dim))  # 所有粒子的位置（还要确定取值范围）
-        self.Xmax = 100
-        self.Xmin = -100
+        self.Xmax = 5.12
+        self.Xmin = -5.12
         self.V =  np.zeros((self.pN, self.dim))  # 所有粒子的速度（还要确定取值范围）
-        self.Vmax = 10
-        self.Vmin = -10
+        self.Vmax = 0.5
+        self.Vmin = -0.5
         self.pbest = np.zeros((self.pN, self.dim))  # 个体经历的最佳位置
         self.gbest = np.zeros((1, self.dim))  # 全局最佳位置
         self.p_fit = np.zeros(self.pN)  # 每个个体的历史最佳适应值
         self.fit = float(1e10)  # 全局最佳适应值
 
     # ---------------------目标函数Sphere函数-----------------------------
-    def function(self, x):
-        f = 0
-        for i in range(self.dim):
-            f += x[i] ** 2
-        return f
-
-    # rastrigin测试函数[-5.12,5.12]
     # def function(self, x):
-    #     A = 10.0
     #     f = 0
     #     for i in range(self.dim):
-    #         f += x[i] ** 2 - A * math.cos(2 * math.pi * x[i]) + A
+    #         f += x[i] ** 2
     #     return f
+
+    # rastrigin测试函数[-5.12,5.12]
+    def function(self, x):
+        A = 10.0
+        f = 0
+        for i in range(self.dim):
+            f += x[i] ** 2 - A * math.cos(2 * math.pi * x[i]) + A
+        return f
 
     # Ackley测试函数[-32,32]
     # def function(self, x):
@@ -53,13 +53,22 @@ class PSO():
     #     n = float(self.dim)
     #     f = -a * math.exp(-b * math.sqrt(firstSum / n)) - math.exp(secondSum / n) + a + math.e
     #     return f
+
+    # rosenbrock测试函数[-30,30]
+    # def function(self, x):
+    #     a = 100.0
+    #     total = 0
+    #     for i in range(len(x) - 1):
+    #         total += a * (x[i + 1] - x[i] * x[i])**2 + (x[i] - 1) * (x[i] - 1)
+    #     return total
+
     # ---------------------初始化种群----------------------------------
     def init_Population(self):
 
         for i in range(self.pN):  # 遍历所有粒子
 
             for j in range(self.dim):  # 每一个粒子的纬度
-                self.X[i][j] = random.uniform(-100, 100)  # 给每一个粒子的位置赋一个初始随机值（在一定范围内）
+                self.X[i][j] = random.uniform(-5.12, 5.12)  # 给每一个粒子的位置赋一个初始随机值（在一定范围内）
                 self.V[i][j] = random.uniform(-0.1, 0.1)  # 给每一个粒子的速度给一个初始随机值（在一定范围内）
 
             self.pbest[i] = self.X[i]  # 把当前粒子位置作为这个粒子的最优位置

@@ -49,7 +49,7 @@ def Rosenbrock(position):
     a = 100.0
     total = 0
     for i in range(len(position)-1):
-        total += a*(position[i+1] - position[i] * position[i]) + (position[i]-1)*(position[i]-1)
+        total += a*(position[i+1] - position[i] * position[i])**2 + (position[i]-1)*(position[i]-1)
     return total
 
 
@@ -98,7 +98,7 @@ def IGWO(fitfunc,SearchAgents_no, Max_iteration, dim, lb, ub):
     tent = np.zeros((SearchAgents_no, dim))
     for i in range(0, dim):
         print('hhh')
-        x_list[i] = tentmap12(0.7, rd.random(1), max_g)
+        x_list[i] = tentmap12(0.5, rd.random(1), max_g)
     for i in range(0, SearchAgents_no):
         # 若搜索位置超过了搜索空间，需要重新回到搜索空间
         for j in range(0, dim):
@@ -256,9 +256,6 @@ def GWO(fitfunc, SearchAgents_no, Max_iteration, dim, lb, ub):
                 Delta_score = fitness  # 则将Delta狼的目标函数值更新为最优目标函数值
                 Delta_pos = Positions[i]
 
-        #  TO DO 收敛因子改进
-        # m=rd.random(1)
-        # a = 2 *((1-index_iteration / Max_iteration)**m)
         a = 2 - index_iteration * (2 / Max_iteration)
 
         # 遍历每个狼
@@ -320,8 +317,8 @@ if __name__ == '__main__':
     SearchAgents_no = 30  # 狼群数量
     Max_iteration = 500  # 最大迭代次数
     dim = 30  # 维度
-    lb = -30  # 参数取值下界
-    ub = 30  # 参数取值上界
+    lb = -100  # 参数取值下界
+    ub = 100  # 参数取值上界
 
     print('----------------3.GWO-----------------')
     # iterations, f = GWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
@@ -335,8 +332,8 @@ if __name__ == '__main__':
     #     # plt.title('GWO')
     #     # plt.show()
     fit_g = []
-    for i in range(2):
-        iterations, f = GWO(Rosenbrock,SearchAgents_no, Max_iteration, dim, lb, ub)
+    for i in range(1):
+        iterations, f = IGWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
         fit_g.append(f[-1])
     fig_mean = np.mean(fit_g)
     fig_std = np.std(fit_g, ddof=1)
@@ -344,6 +341,10 @@ if __name__ == '__main__':
     print("平均值为：%f" % fig_mean)
     print("最差值为：%f" % max(fit_g))
     print("标准差为:%f" % fig_std)
+    print(min(fit_g))
+    print(fig_mean)
+    print(max(fit_g))
+    print(fig_std)
     print(fit_g)
 
 
