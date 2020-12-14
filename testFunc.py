@@ -226,7 +226,19 @@ def GWO(fitfunc, SearchAgents_no, Max_iteration, dim, lb, ub):
     Delta_score = float("inf")
 
     # 初始化首次搜索位置
-    Positions = np.dot(rd.rand(SearchAgents_no, dim), (ub - lb)) + lb
+    # TO DO tent映射生成初始种群
+    max_g = np.linspace(1, SearchAgents_no, num=SearchAgents_no)
+    # 生成tent序列 30维度
+    x_list = np.zeros((dim, SearchAgents_no))
+    tent = np.zeros((SearchAgents_no, dim))
+    for i in range(0, dim):
+        x_list[i] = tentmap12(0.6, rd.random(1), max_g)
+    for i in range(0, SearchAgents_no):
+        # 若搜索位置超过了搜索空间，需要重新回到搜索空间
+        for j in range(0, dim):
+            tent[i, j] = x_list[j, i]
+    Positions = np.dot(tent, (ub - lb)) + lb
+    # Positions = np.dot(rd.rand(SearchAgents_no, dim), (ub - lb)) + lb
     print(Positions)
     print('-------')
 
@@ -331,8 +343,8 @@ if __name__ == '__main__':
     #     # plt.title('GWO')
     #     # plt.show()
     fit_g = []
-    for i in range(1):
-        iterations, f = IGWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
+    for i in range(3):
+        iterations, f = GWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
         fit_g.append(f[-1])
     fig_mean = np.mean(fit_g)
     fig_std = np.std(fit_g, ddof=1)

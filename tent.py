@@ -29,13 +29,14 @@ def draw12(alpha, x0, iters):
     """
     max_g = np.linspace(1, iters, num=iters)
     x_list = tentmap12(alpha, x0, max_g)
+    print(x_list[50])
     plt.plot(max_g, x_list)
     plt.title('tent map')
     plt.xlabel('iters')
     plt.ylabel('x')
-    plt.xlim(0, 200)
+    plt.xlim(0, 100)
     plt.ylim(0, 1)
     plt.show()
 
 
-draw12(0.5, 0.3, 200)
+draw12(0.5, 0.25, 100)
