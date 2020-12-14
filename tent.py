@@ -33,9 +33,9 @@ def draw12(alpha, x0, iters):
     plt.title('tent map')
     plt.xlabel('iters')
     plt.ylabel('x')
-    plt.xlim(0, 20)
+    plt.xlim(0, 200)
     plt.ylim(0, 1)
     plt.show()
 
 
-draw12(np.random.rand(), 0.6, 20)
+draw12(0.5, 0.3, 200)

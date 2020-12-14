@@ -97,7 +97,6 @@ def IGWO(fitfunc,SearchAgents_no, Max_iteration, dim, lb, ub):
     x_list = np.zeros((dim, SearchAgents_no))
     tent = np.zeros((SearchAgents_no, dim))
     for i in range(0, dim):
-        print('hhh')
         x_list[i] = tentmap12(0.5, rd.random(1), max_g)
     for i in range(0, SearchAgents_no):
         # 若搜索位置超过了搜索空间，需要重新回到搜索空间
