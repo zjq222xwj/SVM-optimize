@@ -71,8 +71,8 @@ def IGWO(X_train_scaled, Y_train, SearchAgents_no, Max_iteration, dim, lb, ub):
 
     # TO DO tent映射生成初始种群
     max_g = np.linspace(1, SearchAgents_no, num=SearchAgents_no)
-    x_list = tentmap12(0.7, 0.6, max_g)
-    y_list = tentmap12(0.7, 0.4, max_g)
+    x_list = tentmap12(0.6, 0.6, max_g)
+    y_list = tentmap12(0.6, 0.4, max_g)
     tent = list(zip(x_list, y_list))
     print(tent)
     Positions = np.dot(tent, (ub - lb)) + lb
@@ -151,15 +151,16 @@ def IGWO(X_train_scaled, Y_train, SearchAgents_no, Max_iteration, dim, lb, ub):
 
         # TO DO差分进化
         # 交叉
-        Wmax = 1.5
-        Wmin = 0.25
-        W = (Wmax - Wmin) * (Max_iteration - index_iteration) / Max_iteration + Wmin
-        print(W, 'w')
+        # Wmax = 1.5
+        # Wmin = 0.25
+        # W = (Wmax - Wmin) * (Max_iteration - index_iteration) / Max_iteration + Wmin
+        # print(W, 'w')
+        W = 0.5
         V = Alpha_pos + W * (Beta_pos - Delta_pos)
         print(V, 'v')
 
         # 变异
-        CR = 0.7  # 交叉概率常数
+        CR = 0.4  # 交叉概率常数
         U = np.zeros((SearchAgents_no,dim))
         print('u', U)
         for i in range(0, SearchAgents_no):

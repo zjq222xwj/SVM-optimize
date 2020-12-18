@@ -97,9 +97,8 @@ def IGWO(fitfunc,SearchAgents_no, Max_iteration, dim, lb, ub):
     x_list = np.zeros((dim, SearchAgents_no))
     tent = np.zeros((SearchAgents_no, dim))
     for i in range(0, dim):
-        x_list[i] = tentmap12(0.5, rd.random(1), max_g)
+        x_list[i] = tentmap12(0.6, rd.random(1), max_g)
     for i in range(0, SearchAgents_no):
-        # 若搜索位置超过了搜索空间，需要重新回到搜索空间
         for j in range(0, dim):
             tent[i,j] = x_list[j,i]
     Positions = np.dot(tent, (ub - lb)) + lb
@@ -132,9 +131,10 @@ def IGWO(fitfunc,SearchAgents_no, Max_iteration, dim, lb, ub):
                 Delta_pos = Positions[i]
 
         #  TO DO 收敛因子改进
-        m=rd.random(1)
-        a = 2 *((1-index_iteration / Max_iteration)**m)
-        # a = 2 - index_iteration * (2 / Max_iteration)
+        # m=rd.random(1)
+        # a = 2 *((1-index_iteration / Max_iteration)**m)
+        # a = 2 - 2 * (index_iteration / Max_iteration)
+        a = 2 - 2 * (index_iteration / Max_iteration)**2
 
         # 遍历每个狼
         for i in range(0, SearchAgents_no):
@@ -182,7 +182,7 @@ def IGWO(fitfunc,SearchAgents_no, Max_iteration, dim, lb, ub):
         W = 0.5
         V = Alpha_pos + W * (Beta_pos - Delta_pos)
         # 变异
-        CR = 0.7  # 交叉概率常数
+        CR = 0.4  # 交叉概率常数
         U = [[0 for i in range(dim)] for i in range(SearchAgents_no)]
         for i in range(0, SearchAgents_no):
             for j in range(0, dim):
@@ -226,19 +226,7 @@ def GWO(fitfunc, SearchAgents_no, Max_iteration, dim, lb, ub):
     Delta_score = float("inf")
 
     # 初始化首次搜索位置
-    # TO DO tent映射生成初始种群
-    max_g = np.linspace(1, SearchAgents_no, num=SearchAgents_no)
-    # 生成tent序列 30维度
-    x_list = np.zeros((dim, SearchAgents_no))
-    tent = np.zeros((SearchAgents_no, dim))
-    for i in range(0, dim):
-        x_list[i] = tentmap12(0.6, rd.random(1), max_g)
-    for i in range(0, SearchAgents_no):
-        # 若搜索位置超过了搜索空间，需要重新回到搜索空间
-        for j in range(0, dim):
-            tent[i, j] = x_list[j, i]
-    Positions = np.dot(tent, (ub - lb)) + lb
-    # Positions = np.dot(rd.rand(SearchAgents_no, dim), (ub - lb)) + lb
+    Positions = np.dot(rd.rand(SearchAgents_no, dim), (ub - lb)) + lb
     print(Positions)
     print('-------')
 
@@ -267,8 +255,10 @@ def GWO(fitfunc, SearchAgents_no, Max_iteration, dim, lb, ub):
                 Delta_score = fitness  # 则将Delta狼的目标函数值更新为最优目标函数值
                 Delta_pos = Positions[i]
 
-        a = 2 - index_iteration * (2 / Max_iteration)
-
+        # a = 2 - 2 * (index_iteration / Max_iteration)
+        a = 2 - 2 * (index_iteration / Max_iteration)**2
+        # m = rd.random(1)
+        # a = 2 * ((1 - index_iteration / Max_iteration) ** m)
         # 遍历每个狼
         for i in range(0, SearchAgents_no):
             # 遍历每个维度
@@ -328,8 +318,8 @@ if __name__ == '__main__':
     SearchAgents_no = 30  # 狼群数量
     Max_iteration = 500  # 最大迭代次数
     dim = 30  # 维度
-    lb = -100  # 参数取值下界
-    ub = 100  # 参数取值上界
+    lb = -30  # 参数取值下界
+    ub = 30  # 参数取值上界
 
     print('----------------3.GWO-----------------')
     # iterations, f = GWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
@@ -343,8 +333,8 @@ if __name__ == '__main__':
     #     # plt.title('GWO')
     #     # plt.show()
     fit_g = []
-    for i in range(3):
-        iterations, f = GWO(sphere,SearchAgents_no, Max_iteration, dim, lb, ub)
+    for i in range(30):
+        iterations, f = IGWO(Rosenbrock,SearchAgents_no, Max_iteration, dim, lb, ub)
         fit_g.append(f[-1])
     fig_mean = np.mean(fit_g)
     fig_std = np.std(fit_g, ddof=1)

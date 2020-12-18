@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import numpy.random as rd
 def tentmap12(alpha, x0, max_g):
     """
     tent map 函数
@@ -34,9 +35,9 @@ def draw12(alpha, x0, iters):
     plt.title('tent map')
     plt.xlabel('iters')
     plt.ylabel('x')
-    plt.xlim(0, 100)
+    plt.xlim(0, 500)
     plt.ylim(0, 1)
     plt.show()
 
 
-draw12(0.5, 0.25, 100)
+draw12(0.6, rd.random(1), 500)
